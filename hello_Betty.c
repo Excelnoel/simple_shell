@@ -11,7 +11,7 @@
 
 void print_hello(void)
 {
-	printf("Hello, Betty!\n This is a combined effort of Emmy and Favel\n");
+	printf("Hello, Betty!\nThis is a combined effort of Emmy and Favel\n");
 }
 
 int main(void)
