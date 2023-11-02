@@ -10,6 +10,11 @@
 
 void print_hello(void)
 {
+	printf("Hello, Betty!\n");
+}
+
+int main(void)
+{
 	print_hello();
 
 	return (0);
