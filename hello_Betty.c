@@ -4,13 +4,14 @@
 ** Function: print_hello
 **
 ** Description:
-** 	This function prints "Hello, Betty!" to the standard output.
+** 	This function prints "Hello, Betty! This is the combined effort"
+** "of Emmy and Favel" to the standard output.
 **It tajes no arguments and returns nothing.
 */
 
 void print_hello(void)
 {
-	printf("Hello, Betty!\n");
+	printf("Hello, Betty!\nThis is a combined effort of Emmy and Favel\n");
 }
 
 int main(void)
