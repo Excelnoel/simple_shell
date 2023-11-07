@@ -13,14 +13,11 @@
 #include <errno.h>
 
 /* for read/write buffers */
-<<<<<<< HEAD
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
 /* for command chaining */
-=======
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 #define CMD_NORM	0
 #define CMD_OR		1
 #define CMD_AND		2
@@ -46,21 +43,12 @@ extern char **environ;
  * @str: a string
  * @next: points to the next node
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 typedef struct liststr
 {
 	int num;
 	char *str;
 	struct liststr *next;
-<<<<<<< HEAD
 } list_t;
-=======
-}
-list_t;
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 
 /**
  *struct passinfo - contains pseudo-arguements to pass into a function,
@@ -84,43 +72,25 @@ list_t;
  *@readfd: the fd from which to read line input
  *@histcount: the history line number count
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 typedef struct passinfo
 {
 	char *arg;
 	char **argv;
-<<<<<<< HEAD
 	char *path;
-=======
-	char *patch;
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 	int argc;
 	unsigned int line_count;
 	int err_num;
 	int linecount_flag;
-<<<<<<< HEAD
 	char *fname;
 	list_t *env;
-=======
-	char fname;
-	lisy_t *env;
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 	list_t *history;
 	list_t *alias;
 	char **environ;
 	int env_changed;
 	int status;
 
-<<<<<<< HEAD
 	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
 	int cmd_buf_type; /* CMD_type ||, &&, ; */
-=======
-	char **cmd_buf;
-	int cmd_buf_type;
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 	int readfd;
 	int histcount;
 } info_t;
@@ -134,7 +104,6 @@ typedef struct passinfo
  *@type: the builtin command flag
  *@func: the function
  */
-<<<<<<< HEAD
 typedef struct builtin
 {
 	char *type;
@@ -142,28 +111,14 @@ typedef struct builtin
 } builtin_table;
 
 
-=======
-
-typedef struct builtin
-{
-	char *type;
-	int (*func) (info_t *);
-} builtin_table;
-
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 /* toem_shloop.c */
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
 
-<<<<<<< HEAD
 /* toem_parser.c */
 int is_cmd(info_t *, char *);
-=======
-/*toem_parser.c */
-int is_cmd(info_t *, char *)
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
 char *dup_chars(char *, int, int);
 char *find_path(info_t *, char *, char *);
 
@@ -278,7 +233,4 @@ int replace_vars(info_t *);
 int replace_string(char **, char *);
 
 #endif
-<<<<<<< HEAD
 
-=======
->>>>>>> 94769b87e776695f93cd33a9ae42990016e5eeec
