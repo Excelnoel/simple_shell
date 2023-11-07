@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
 
 # Define source files and their corresponding object files
-SOURCES = main.c getline.c parser.c builtin.c environ.c shell_loop.c vars.c \
+SOURCES = main.c getLine.c parser.c builtin.c environ.c shell_loop.c vars.c \
           memory.c lists.c string.c tokenizer.c getinfo.c getenv.c errors.c \
           history.c realloc.c
 OBJECTS = $(SOURCES:.c=.o)
