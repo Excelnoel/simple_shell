@@ -37,14 +37,14 @@ char *_strncpy(char *dest, char *src, int n)
  *Return: the concatenated string
  */
 char *_strncat(char *dest, char *src, int n)
-{
-	int i j;
-	char *s = dest;
+i{
+  int i, j;
 
 	i = 0;
 	j = 0;
+	char *s = dest;
 	while (dest[i] != '\0')
-		i++;
+	       i++;
 	while (src[j] != '\0' && j < n)
 	{
 		dest[i] = src[j];
@@ -52,7 +52,7 @@ char *_strncat(char *dest, char *src, int n)
 		j++;
 	}
 	if (j < n)
-		dest[i] = '\0'';
+		dest[i] = '\0';
 	return (s);
 }
 
