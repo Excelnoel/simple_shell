@@ -17,7 +17,7 @@ void _eputs(char *str)
 	}
 }
 /**
- * _eputchar - writing the character c to stderr
+ * _eputchar - writes the character c to stderr
  * @c: The character to print
  * Return: On success 1
  * On error, -1 is returned, and errno is set appropriately
@@ -33,7 +33,7 @@ int _eputchar(char c)
 		i = 0;
 	}
 	if (c != BUF_FLUSH)
-		BUF[i+=] = c;
+		buf[i+=] = c;
 	return (1);
 }
 /**
