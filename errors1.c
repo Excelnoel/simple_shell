@@ -53,7 +53,7 @@ int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
 	int i, count = 0;
-	unsigned int _abs_, current;
+	unsigned int _abs_val, current;
 
 	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
@@ -63,7 +63,7 @@ int print_d(int input, int fd)
 		__putchar('-');
 		count++;
 	}
-	elase
+	else
 		_abs_ = input;
 	current = _abs_;
 	for (i = 1000000000; i > 1; i /= 10)
