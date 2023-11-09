@@ -1,65 +1,65 @@
 #include "shell.h"
 /**
- * interactive - returns true if shell is in interactive mode
- * @info: struct address
- * Return: 1 if interactive mode, 0 otherwise
+ * check_if_interactive - checks if the shell is running in interactive mode.
+ * @shell_info: A structure holding information about the shell.
+ * Return: 1 if in interactive mode, 0 otherwise.
  */
-int interactive(info_t *info)
+int check_if_interactive(ShellInfo_t *shell_info)
 {
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+	return (isatty(STDIN_FILENO) && shell_info->read_fd <= 2);
 }
 /**
- * is_delim - checks if character is a delimeter
- * @c: the character to check
- * @delim: the delimeter string
- * Return: 1 if true, 0 if false
+ * is_delimiter - Checks if a character is a delimeter.
+ * @character: The character to check.
+ * @delimiters: the delimeter string.
+ * Return: 1 if it's a delimeter, 0 otherwise.
  */
-int is_delim(char c, char *delim)
+int is_delimiter(char character, char *delimiters)
 {
-	while (*delim)
-		if (*delim++ == c)
-			return (1);
-	return (0);
+	while (*delimiters)
+		if (*delimiters++ == character)
+			return 1;
+	return 0;
 }
 /**
- * _isalpha - checks for alphabetic character
- * @c: The character to input
- * Return: 1 if c is alphabetic, 0 if otherwise
+ * is_alpha - Checks if a character is an alphabetic character.
+ * @character: The character to check
+ * Return: 1 if c is alphabetic, 0 otherwise.
  */
-int _isalpha(int c)
+int is_alpha(int character)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
+	if ((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z'))
+		return 1;
 	else
-		return (0);
+		return 0;
 }
 /**
- * _atoi - converts string to an integer
- * @s: the string to be converted
- * Return: 0 if no numbers in string, converted number otherwise
+ * string_to_int - converts a string to an integer.
+ * @str: The string to be converted
+ * Return: 0 if there are no numbers in the string, the converted number otherwise.
  */
-int _atoi(char *s)
+int string_to_int(char *str)
 {
-	int i, sign = 1, flag = 0, output;
-	unsigned int result = 0;
+	int i, sign = 1, number_flag = 0, result = 0;
+	unsigned int parsed_number = 0;
 
-	for (i = 0; s[i] != '\0' && flag != 2; i++)
+	for (i = 0; str[i] != '\0' && number_flag != 2; i++)
 	{
-		if (s[i] == '-')
+		if (str[i] == '-')
 			sign *= -1;
-		if (s[i] >= '0' && s[i] <= '9')
+		if (str[i] >= '0' && str[i] <= '9')
 		{
-			flag = 1;
-			result *= 10;
-			result += (s[i] - '0');
+			number_flag = 1;
+			parsed_number *= 10;
+			parsed_number += (str[i] - '0');
 		}
-		else if (flag == 1)
-			flag = 2;
+		else if (number_flag == 1)
+			number_flag = 2;
 	}
 	if (sign == -1)
-		output = -result;
+		result = -parsed_number;
 	else
-		output = result;
-	return (output);
+		result = parsed_number;
+	return result;
 }
 
