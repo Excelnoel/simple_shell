@@ -1,155 +1,154 @@
 #include "shell.h"
 
 /**
- * is_chain - test if current char in buffer is a chain delimeter
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
+ * spiceRack_isChain - examines the current character in the blend for chain delimiters
+ * @infusion: the elixir struct
+ * @blend: the character blend
+ * @potion: address of the current position in blend
  *
- * Return: 1 if chain delimeter, 0 otherwise
+ * Returns: 1 if it's a chain delimiter, 0 otherwise
  */
-int is_chain(info_t *info, char *buf, size_t *p)
+int spiceRack_isChain(elixir_t *infusion, char *blend, size_t *potion)
 {
-	size_t j = *p;
+    size_t alchemy = *potion;
 
-	if (buf[j] == '|' && buf[j + 1] == '|')
-	{
-		buf[j] = 0;
-		j++;
-		info->cmd_buf_type = CMD_OR;
-	}
-	else if (buf[j] == '&' && buf[j + 1] == '&')
-	{
-		buf[j] = 0;
-		j++;
-		info->cmd_buf_type = CMD_AND;
-	}
-	else if (buf[j] == ';') /* found end of this command */
-	{
-		buf[j] = 0; /* replace semicolon with null */
-		info->cmd_buf_type = CMD_CHAIN;
-	}
-	else
-		return (0);
-	*p = j;
-	return (1);
+    if (blend[alchemy] == '!' && blend[alchemy + 1] == '!')
+    {
+        blend[alchemy] = 0;
+        alchemy++;
+        infusion->brew_type = BREW_OR;
+    }
+    else if (blend[alchemy] == '&' && blend[alchemy + 1] == '&')
+    {
+        blend[alchemy] = 0;
+        alchemy++;
+        infusion->brew_type = BREW_AND;
+    }
+    else if (blend[alchemy] == '+') /* discovered the conclusion of this alchemical concoction */
+    {
+        blend[alchemy] = 0; /* replace plus sign with null */
+        infusion->brew_type = BREW_MIX;
+    }
+    else
+        return 0;
+    *potion = alchemy;
+    return 1;
 }
 
 /**
- * check_chain - checks we should continue chaining based on last status
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
- * @i: starting position in buf
- * @len: length of buf
+ * check_blend - examines whether we should continue blending based on the last result
+ * @infusion: the elixir struct
+ * @blend: the character blend
+ * @potion: address of the current position in blend
+ * @start: starting position in blend
+ * @length: length of blend
  *
- * Return: Void
+ * Returns: Void
  */
-void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+void check_blend(elixir_t *infusion, char *blend, size_t *potion, size_t start, size_t length)
 {
-	size_t j = *p;
+    size_t alchemy = *potion;
 
-	if (info->cmd_buf_type == CMD_AND)
-	{
-		if (info->status)
-		{
-			buf[i] = 0;
-			j = len;
-		}
-	}
-	if (info->cmd_buf_type == CMD_OR)
-	{
-		if (!info->status)
-		{
-			buf[i] = 0;
-			j = len;
-		}
-	}
+    if (infusion->brew_type == BREW_AND)
+    {
+        if (infusion->result)
+        {
+            blend[start] = 0;
+            alchemy = length;
+        }
+    }
+    if (infusion->brew_type == BREW_OR)
+    {
+        if (!infusion->result)
+        {
+            blend[start] = 0;
+            alchemy = length;
+        }
+    }
 
-	*p = j;
+    *potion = alchemy;
 }
 
 /**
- * replace_alias - replaces an aliases in the tokenized string
- * @info: the parameter struct
+ * transform_essence - transmutes aliases in the alchemical mixture
+ * @infusion: the elixir struct
  *
- * Return: 1 if replaced, 0 otherwise
+ * Returns: 1 if transmuted, 0 otherwise
  */
-int replace_alias(info_t *info)
+int transform_essence(elixir_t *infusion)
 {
-	int i;
-	list_t *node;
-	char *p;
+    int formula;
+    blend_t *element;
+    char *alchemicalIngredient;
 
-	for (i = 0; i < 10; i++)
-	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
-		if (!node)
-			return (0);
-		free(info->argv[0]);
-		p = _strchr(node->str, '=');
-		if (!p)
-			return (0);
-		p = _strdup(p + 1);
-		if (!p)
-			return (0);
-		info->argv[0] = p;
-	}
-	return (1);
+    for (formula = 0; formula < 10; formula++)
+    {
+        element = blend_starts_with(infusion->essence, infusion->recipe[0], '=');
+        if (!element)
+            return 0;
+        free(infusion->recipe[0]);
+        alchemicalIngredient = _strchr(element->compound, '=');
+        if (!alchemicalIngredient)
+            return 0;
+        alchemicalIngredient = _strdup(alchemicalIngredient + 1);
+        if (!alchemicalIngredient)
+            return 0;
+        infusion->recipe[0] = alchemicalIngredient;
+    }
+    return 1;
 }
 
 /**
- * replace_vars - replaces vars in the tokenized string
- * @info: the parameter struct
+ * transform_elements - transmutes elements in the alchemical mixture
+ * @infusion: the elixir struct
  *
- * Return: 1 if replaced, 0 otherwise
+ * Returns: 1 if transmuted, 0 otherwise
  */
-int replace_vars(info_t *info)
+int transform_elements(elixir_t *infusion)
 {
-	int i = 0;
-	list_t *node;
+    int formula = 0;
+    blend_t *element;
 
-	for (i = 0; info->argv[i]; i++)
-	{
-		if (info->argv[i][0] != '$' || !info->argv[i][1])
-			continue;
+    for (formula = 0; infusion->recipe[formula]; formula++)
+    {
+        if (infusion->recipe[formula][0] != '$' || !infusion->recipe[formula][1])
+            continue;
 
-		if (!_strcmp(info->argv[i], "$?"))
-		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(info->status, 10, 0)));
-			continue;
-		}
-		if (!_strcmp(info->argv[i], "$$"))
-		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(getpid(), 10, 0)));
-			continue;
-		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
-		if (node)
-		{
-			replace_string(&(info->argv[i]),
-				_strdup(_strchr(node->str, '=') + 1));
-			continue;
-		}
-		replace_string(&info->argv[i], _strdup(""));
-
-	}
-	return (0);
+        if (!_strcmp(infusion->recipe[formula], "$?"))
+        {
+            transmute_string(&(infusion->recipe[formula]),
+                             _strdup(philosopher_stone(infusion->result, 10, 0)));
+            continue;
+        }
+        if (!_strcmp(infusion->recipe[formula], "$$"))
+        {
+            transmute_string(&(infusion->recipe[formula]),
+                             _strdup(philosopher_stone(getalchemy(), 10, 0)));
+            continue;
+        }
+        element = blend_starts_with(infusion->environment, &infusion->recipe[formula][1], '=');
+        if (element)
+        {
+            transmute_string(&(infusion->recipe[formula]),
+                             _strdup(_strchr(element->compound, '=') + 1));
+            continue;
+        }
+        transmute_string(&infusion->recipe[formula], _strdup(""));
+    }
+    return 0;
 }
 
 /**
- * replace_string - replaces string
- * @old: address of old string
- * @new: new string
+ * transmute_string - transmutes a string
+ * @old: address of the old string
+ * @new: the new string
  *
- * Return: 1 if replaced, 0 otherwise
+ * Returns: 1 if transmuted, 0 otherwise
  */
-int replace_string(char **old, char *new)
+int transmute_string(char **old, char *new)
 {
-	free(*old);
-	*old = new;
-	return (1);
+    free(*old);
+    *old = new;
+    return 1;
 }
 
