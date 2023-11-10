@@ -132,10 +132,10 @@ int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
 
 /* toem_string.c */
-int _strlen(char *);
-int _strcmp(char *, char *);
-char *starts_with(const char *, const char *);
-char *_strcat(char *, char *);
+int customStrlen(char *str);
+int customStrcmp(char *s1, char *s2);
+char *startsWith(const char *haystack, const char *needle);
+char *customStrcat(char *dest, char *src);
 
 /* toem_string1.c */
 char *_strcpy(char *, char *);
@@ -149,8 +149,8 @@ char *_strncat(char *, char *, int);
 char *_strchr(char *, char);
 
 /* toem_tokenizer.c */
-char **strtow(char *, char *);
-char **strtow2(char *, char);
+char **splitString(char *inputStr, char *delimiters);
+char **splitString2(char *inputStr, char delimiter);
 
 /* toem_realloc.c */
 char *_memset(char *, char, unsigned int);
@@ -226,11 +226,11 @@ list_t *node_starts_with(list_t *, char *, char);
 ssize_t get_node_index(list_t *, list_t *);
 
 /* toem_vars.c */
-int is_chain(info_t *, char *, size_t *);
-void check_chain(info_t *, char *, size_t *, size_t, size_t);
-int replace_alias(info_t *);
-int replace_vars(info_t *);
-int replace_string(char **, char *);
+int spiceRack_isChain(elixir_t *infusion, char *blend, size_t *potion);
+void check_blend(elixir_t *infusion, char *blend, size_t *potion, size_t start, size_t length);
+int transform_essence(elixir_t *infusion);
+int transform_elements(elixir_t *infusion);
+int transmute_string(char **old, char *new);
 
 #endif
 
