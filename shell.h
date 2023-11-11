@@ -200,8 +200,8 @@ int populateEnvironmentList(info_t *);
 
 /* toem_getenv.c */
 char **getEnvironment(info_t *);
-int unsetEnvironmentVariable(info_t *, char *);
-int setEnvironmentVariable(info_t *, char *, char *);
+int unsetEnvironmentVariables(info_t *, char *);
+int setEnvironmentVariables(info_t *, char *, char *);
 
 /* toem_history.c */
 char *getHistoryFile(info_t *info);

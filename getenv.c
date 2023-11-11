@@ -4,7 +4,7 @@
  * @info: structure containing potential arguements. 
  * Return: Always 0
  */
-char **get_environ(info_t *info)
+char **getEnvironment(info_t *info)
 {
 	if (!info->environ || info->env_changed)
 	{
@@ -21,7 +21,7 @@ char **get_environ(info_t *info)
  * @var: The environment variable to remove
  * Return: 1 on success, 0 otherwise
  */
-int unset_environment(info_t *info, char *var)
+int unsetEnvironmentVariables(info_t *info, char *var)
 {
 	list_t *current= info->env;
 	size_t index = 0;
@@ -53,7 +53,7 @@ int unset_environment(info_t *info, char *var)
  * @value: The value for the environment variable.
  * Return: Always 0
  */
-int set_environment(info_t *info, char *var, char *value)
+int setEnvironmentVariables(info_t *info, char *var, char *value)
 {
 	char *buffer = NULL;
 	list_t *current
