@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * customStrlen - Calculates the length of a string
+ * getStringLength - Calculates the length of a string
  * @str: The string to measure
  *
- * Return: The length of the string
+ * Returns: The length of the string
  */
-int customStrlen(char *str)
+int getStringLength(char *str)
 {
     int length = 0;
 
@@ -20,13 +20,13 @@ int customStrlen(char *str)
 }
 
 /**
- * customStrcmp - Performs lexicographic comparison of two strings
+ * compareStrings - Performs lexicographic comparison of two strings
  * @s1: The first string
  * @s2: The second string
  *
- * Return: Negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
+ * Returns: Negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
  */
-int customStrcmp(char *s1, char *s2)
+int compareStrings(char *s1, char *s2)
 {
     while (*s1 && *s2)
     {
@@ -44,13 +44,13 @@ int customStrcmp(char *s1, char *s2)
 }
 
 /**
- * startsWith - Checks if needle starts with haystack
+ * startsWithString - Checks if needle starts with haystack
  * @haystack: The string to search
  * @needle: The substring to find
  *
- * Return: Address of the next character in haystack or NULL
+ * Returns: Address of the next character in haystack or NULL
  */
-char *startsWith(const char *haystack, const char *needle)
+char *startsWithString(const char *haystack, const char *needle)
 {
     while (*needle)
         if (*needle++ != *haystack++)
@@ -60,23 +60,23 @@ char *startsWith(const char *haystack, const char *needle)
 }
 
 /**
- * customStrcat - Concatenates two strings
- * @dest: The destination buffer
- * @src: The source buffer
+ * concatenateStrings - Concatenates two strings
+ * @destination: The destination buffer
+ * @source: The source buffer
  *
- * Return: Pointer to the destination buffer
+ * Returns: Pointer to the destination buffer
  */
-char *customStrcat(char *dest, char *src)
+char *concatenateStrings(char *destination, char *source)
 {
-    char *result = dest;
+    char *result = destination;
 
-    while (*dest)
-        dest++;
+    while (*destination)
+        destination++;
 
-    while (*src)
-        *dest++ = *src++;
+    while (*source)
+        *destination++ = *source++;
 
-    *dest = *src;
+    *destination = *source;
 
     return result;
 }

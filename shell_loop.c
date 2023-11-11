@@ -1,61 +1,73 @@
 #include "shell.h"
 
 /**
- * hsh - main shell loop
- * @info: the parameter & return info struct
- * @av: the argument vector from main()
+ * runShell - Main shell loop
+ * @info: Pointer to the info_t struct for parameters and returns
+ * @av: Argument vector from main()
  *
  * Return: 0 on success, 1 on error, or error code
  */
-int hsh(info_t *info, char **av)
+int runShell(info_t *info, char **av)
 {
-	ssize_t r = 0;
-	int builtin_ret = 0;
+	ssize_t readStatus = 0;
+	int builtinResult = 0;
 
-	while (r != -1 && builtin_ret != -2)
+	while (readStatus != -1 && builtinResult != -2)
 	{
-		clear_info(info);
+		clearInfo(info);
+
 		if (interactive(info))
 			_puts("$ ");
+
 		_eputchar(BUF_FLUSH);
-		r = get_input(info);
-		if (r != -1)
+
+		readStatus = getInput(info);
+
+		if (readStatus != -1)
 		{
-			set_info(info, av);
-			builtin_ret = find_builtin(info);
-			if (builtin_ret == -1)
-				find_cmd(info);
+			setInfo(info, av);
+			builtinResult = findBuiltin(info);
+
+			if (builtinResult == -1)
+				findCommand(info);
 		}
 		else if (interactive(info))
 			_putchar('\n');
-		free_info(info, 0);
+
+		freeInfo(info, 0);
 	}
-	write_history(info);
-	free_info(info, 1);
+
+	writeHistory(info);
+	freeInfo(info, 1);
+
 	if (!interactive(info) && info->status)
 		exit(info->status);
-	if (builtin_ret == -2)
+
+	if (builtinResult == -2)
 	{
-		if (info->err_num == -1)
+		if (info->errNum == -1)
 			exit(info->status);
-		exit(info->err_num);
+
+		exit(info->errNum);
 	}
-	return (builtin_ret);
+
+	return (builtinResult);
 }
 
 /**
- * find_builtin - finds a builtin command
- * @info: the parameter & return info struct
+ * findBuiltin - Finds a builtin command
+ * @info: Pointer to the info_t struct for parameters and returns
  *
  * Return: -1 if builtin not found,
  *			0 if builtin executed successfully,
  *			1 if builtin found but not successful,
  *			-2 if builtin signals exit()
  */
-int find_builtin(info_t *info)
+int findBuiltin(info_t *info)
 {
-	int i, built_in_ret = -1;
-	builtin_table builtintbl[] = {
+	int i, builtinResult = -1;
+
+	builtinTable builtintbl[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
 		{"help", _myhelp},
@@ -68,81 +80,94 @@ int find_builtin(info_t *info)
 	};
 
 	for (i = 0; builtintbl[i].type; i++)
+	{
 		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
 		{
-			info->line_count++;
-			built_in_ret = builtintbl[i].func(info);
+			info->lineCount++;
+			builtinResult = builtintbl[i].func(info);
 			break;
 		}
-	return (built_in_ret);
+	}
+
+	return (builtinResult);
 }
 
 /**
- * find_cmd - finds a command in PATH
- * @info: the parameter & return info struct
+ * findCommand - Finds a command in PATH
+ * @info: Pointer to the info_t struct for parameters and returns
  *
  * Return: void
  */
-void find_cmd(info_t *info)
+void findCommand(info_t *info)
 {
 	char *path = NULL;
-	int i, k;
+	int i, count;
 
 	info->path = info->argv[0];
-	if (info->linecount_flag == 1)
+
+	if (info->lineCountFlag == 1)
 	{
-		info->line_count++;
-		info->linecount_flag = 0;
+		info->lineCount++;
+		info->lineCountFlag = 0;
 	}
-	for (i = 0, k = 0; info->arg[i]; i++)
-		if (!is_delim(info->arg[i], " \t\n"))
-			k++;
-	if (!k)
+
+	for (i = 0, count = 0; info->arg[i]; i++)
+	{
+		if (!isDelimiter(info->arg[i], " \t\n"))
+			count++;
+	}
+
+	if (!count)
 		return;
 
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	path = findPath(info, _getenv(info, "PATH="), info->argv[0]);
+
 	if (path)
 	{
 		info->path = path;
-		fork_cmd(info);
+		forkCommand(info);
 	}
 	else
 	{
 		if ((interactive(info) || _getenv(info, "PATH=")
-			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
-			fork_cmd(info);
+			 || info->argv[0][0] == '/') && isCommand(info, info->argv[0]))
+			forkCommand(info);
 		else if (*(info->arg) != '\n')
 		{
 			info->status = 127;
-			print_error(info, "not found\n");
+			printError(info, "not found\n");
 		}
 	}
 }
 
 /**
- * fork_cmd - forks a an exec thread to run cmd
- * @info: the parameter & return info struct
+ * forkCommand - Forks an exec thread to run a command
+ * @info: Pointer to the info_t struct for parameters and returns
  *
  * Return: void
  */
-void fork_cmd(info_t *info)
+void forkCommand(info_t *info)
 {
-	pid_t child_pid;
+	pid_t childPid;
 
-	child_pid = fork();
-	if (child_pid == -1)
+	childPid = fork();
+
+	if (childPid == -1)
 	{
 		/* TODO: PUT ERROR FUNCTION */
 		perror("Error:");
 		return;
 	}
-	if (child_pid == 0)
+
+	if (childPid == 0)
 	{
-		if (execve(info->path, info->argv, get_environ(info)) == -1)
+		if (execve(info->path, info->argv, getEnviron(info)) == -1)
 		{
-			free_info(info, 1);
+			freeInfo(info, 1);
+
 			if (errno == EACCES)
 				exit(126);
+
 			exit(1);
 		}
 		/* TODO: PUT ERROR FUNCTION */
@@ -150,11 +175,13 @@ void fork_cmd(info_t *info)
 	else
 	{
 		wait(&(info->status));
+
 		if (WIFEXITED(info->status))
 		{
 			info->status = WEXITSTATUS(info->status);
+
 			if (info->status == 126)
-				print_error(info, "Permission denied\n");
+				printError(info, "Permission denied\n");
 		}
 	}
 }
