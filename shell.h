@@ -182,9 +182,14 @@ int displayHistory(info_t *);
 int manageAlias(info_t *);
 
 /*toem_getline.c */
-ssize_t getInput(info_t *);
+ssize_t bufferInput(shell_params_t *, char **, size_t *)
+ssize_t getInput(shell_params_t *)
+ssize_t readBuffer(shell_params_t *, char *, size_t *)
+int customGetLine(shell_params_t *, char **, size_t *)
+void interruptHandler(__attribute__((unused))int signum)
+/*ssize_t bufferInput(info_t *);
 int getLine(info_t *, char **, size_t *);
-void handleSigint(int);
+void handleSigint(int); */
 
 /* toem_getinfo.c */
 void initializeInfo(info_t *);
