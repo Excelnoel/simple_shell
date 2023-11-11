@@ -1,70 +1,75 @@
 #include "shell.h"
 /**
- * clear_info - initializes info_t struct
- * @info: struct address
+ * clearInfo - Initialize the info_t struct
+ * @info: Pointer to the info_t struct
  */
-void clear_info(info_t *info)
+void clear_Info(info_t *info)
 {
-	info->arg = NULL;
-	info->argv = NULL;
+	info->argument = NULL;
+	info->argumentVector = NULL;
 	info->path = NULL;
-	info->argc = 0;
+	info->argument = 0;
 }
 /**
- * set_info - initializes info_struct
- * @info: struct address
- * @av: arguement vector
+ * setInfo - Initialize the info_t struct
+ * @info: Pointer to the info_t structstruct address
+ * @arguments: Arguement vector
  */
-void set_info(info_t *info, char **av)
+void setInfo(info_t *info, char **arguments)
 {
 	int i = 0;
 
-	info->fname = av[0];
-	if (info->arg)
+	info->filename = arguments[0];
+	
+	if (info->argument)
 	{
-		info->argv = strtow(info->arg, " \t");
-		if (!info->argv)
+		info->argumentVector = splitString(info->argument, " \t");
+		if (!info->argumentVector)
 		{
-			info->argv = malloc(sizeof(char *) * 2);
-			if (info->argv)
+			info->argumentVector = malloc(sizeof(char *) * 2);
+			if (info->argumentVector)
 			{
-				info->argv[0] = _strdup(info->arg);
-				info->argv[1] = NULL;
+				info->argument[0] = duplicateString((info->argument);
+				info->argumentVector[1] = NULL;
 			}
 		}
-		for (i = 0; info->argv && info->argv[i]; i++)
+		for (i = 0; info->argumentvector && info->argv[i]; i++)
 			;
-		info->argc = i;
+		info->argumentCount = i;
 
-		replace_alias(info);
-		replace_vars(info);
+		replaceAliases(info);
+		replaceVariables(info);
 	}
 }
 /**
- * free_info - frees info_t struct fields
- * @info: struct address
- * @all: true if freeing all fields
+ * freeInfo - free the fields of the info_t struct
+ * @info: Pointer to the info_t struct 
+ * @freeAll: True if freeing all fields
  */
-void free_info(info_t *info, int all)
+void freeInfo(info_t *info, int freeAll)
 {
-	ffree(info->argv);
-	info->argv = NULL;
+	free(info->argumentVector);
+	info->argumentVector = NULL;
 	info->path = NULL;
-	if (all)
+
+	if (freeAll)
 	{
-		if (!info->cmd_buf)
-			free(info->arg);
-		if (info->env)
-			free_list(&(info->env));
-		if (info->history)
-			free_list(&(info->history));
-		if (info->alias)
-			free_list(&(info->alias));
-		ffree(info->environ);
-		info->environ = NULL;
-		bfree((void **)info->cmd_buf);
-		if (info->readfd > 2)
-			close(info->readfd);
-		_putchar(BUF_FLUSH);
+		if (!info->commandBuffer)
+			free(info->argument);
+
+		if (info->environment)
+			freeList(&(info->env));
+
+		if (info->commandHistory)
+		
+			freeList(&(info->history));
+		if (info->aliasList)
+			freeList(&(info->aliasList));
+		free(info->environmentVariables);
+		info->environmentvariables = NULL;
+		batchFree((void **)info->commandBuffer);
+		if (info->readFileDescriptor > 2)
+			close(info->readFileDescriptor);
+		outputCharacter(BUFFER_FLUSH);
 	}
 }
