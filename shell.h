@@ -230,5 +230,14 @@ void checkChain(info_t *, char *, size_t *, size_t, size_t);
 int replaceAliases(info_t *);
 int replaceVariables(info_t *);
 int replaceString(char **, char *);
+
+/*my additions for main.c and envlist hsh and read history */
+void _eputs(const char *);
+void _eputchar(char);
+void populate_env_list(info_t *);
+void read_history(info_t *);
+void hsh(info_t *, char **);
+
+
 #endif
 
