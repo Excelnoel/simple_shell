@@ -182,7 +182,7 @@ int displayHistory(info_t *);
 int manageAlias(info_t *);
 
 /*toem_getline.c */
-ssize_t bufferInput(info_t *);
+ssize_t bufferInput(info_t *params, char **buffer, size_t *length);
 int getLine(info_t *, char **, size_t *);
 void handleSigint(int);
 void interruptHandler(__attribute__((unused)) int signum);
