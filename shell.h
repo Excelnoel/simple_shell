@@ -185,6 +185,8 @@ int manageAlias(info_t *);
 ssize_t bufferInput(info_t *);
 int getLine(info_t *, char **, size_t *);
 void handleSigint(int);
+void interruptHandler(__attribute__((unused)) int signum);
+
 
 /* toem_getinfo.c */
 void initializeInfo(info_t *);
