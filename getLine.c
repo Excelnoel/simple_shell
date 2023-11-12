@@ -53,7 +53,7 @@ ssize_t getInput(info_t *info) {
     char **command_buffer_ptr = &(info->argv);
     char *current_position;
 
-    _putchar(BUF_FLUSH);
+    _eputchar(BUF_FLUSH);
     // Corrected the function call arguments
     bytes_read = bufferInput(info, &command_buffer, &length);
 
@@ -82,7 +82,7 @@ ssize_t getInput(info_t *info) {
         }
 
         *command_buffer_ptr = current_position; // Pass back a pointer to the current command position
-        return (_strlen(current_position)); // Return the length of the current command
+        return (strlen(current_position)); // Return the length of the current command
     }
 
     *command_buffer_ptr = command_buffer; // Not a chain, pass back the buffer from customGetLine()
@@ -131,16 +131,16 @@ int customGetLine(info_t *params, char **ptr, size_t *length) {
     if (bytes_read == -1 || (bytes_read == 0 && len == 0))
         return -1;
 
-    c = _strchr(buf + i, '\n');
+    c = strchr(buf + i, '\n');
     k = c ? 1 + (unsigned int)(c - buf) : len;
-    new_p = _realloc(p, s, s ? s + k : k + 1);
+    new_p = realloc(p, s, s ? s + k : k + 1);
     if (!new_p) // MALLOC FAILURE
         return p ? free(p), -1 : -1;
 
     if (s)
-        _strncat(new_p, buf + i, k - i);
+        strncat(new_p, buf + i, k - i);
     else
-        _strncpy(new_p, buf + i, k - i + 1);
+        strncpy(new_p, buf + i, k - i + 1);
 
     s += k - i;
     i = k;
@@ -158,8 +158,8 @@ int customGetLine(info_t *params, char **ptr, size_t *length) {
  * Return: void
  */
 void interruptHandler(__attribute__((unused)) int signum) {
-    _puts("\n");
-    _puts("$ ");
-    _putchar(BUF_FLUSH);
+    puts("\n");
+    puts("$ ");
+    putchar(BUF_FLUSH);
 }
 
