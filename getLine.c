@@ -8,6 +8,9 @@
  * @length: address of length var
  * Return: bytes read
  */
+// Add this at the top of getLine.c
+int customGetLine(info_t *params, char **ptr, size_t *length);
+
 ssize_t bufferInput(info_t *params, char **buffer, size_t *length) {
     ssize_t bytes_read = 0;
     size_t length_p = 0;
@@ -35,7 +38,7 @@ ssize_t bufferInput(info_t *params, char **buffer, size_t *length) {
             buildHistoryList(params, *buffer, params->histcount++);
             // Check for command chaining
             *length = bytes_read;
-            params->command_buffer = *buffer; // Assign the pointer, not the value
+            params->cmd_buf = *buffer; // Assign the pointer, not the value
         }
     }
     return bytes_read;
@@ -50,7 +53,7 @@ ssize_t getInput(info_t *info) {
     static char *command_buffer; // The ';' command chain buffer
     static size_t i, length;
     ssize_t bytes_read = 0;
-    char **command_buffer_ptr = &(info->argv);
+    char **command_buffer_ptr = &info->argv;
     char *current_position;
 
     _eputchar(BUF_FLUSH);
@@ -133,7 +136,7 @@ int customGetLine(info_t *params, char **ptr, size_t *length) {
 
     c = strchr(buf + i, '\n');
     k = c ? 1 + (unsigned int)(c - buf) : len;
-    new_p = realloc(p, s, s ? s + k : k + 1);
+    new_p = realloc(p, s ? s + k : k + 1);
     if (!new_p) // MALLOC FAILURE
         return p ? free(p), -1 : -1;
 
