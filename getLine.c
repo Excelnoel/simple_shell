@@ -8,7 +8,7 @@
  * @length: address of length var
  * Return: bytes read
  */
-ssize_t bufferInput(info_t *params, char **buffer, size_t *length) {
+ssize_t bufferInput(info_t *params, char **buffer, size_t *length); {
     ssize_t bytes_read = 0;
     size_t length_p = 0;
 
