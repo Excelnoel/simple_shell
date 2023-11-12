@@ -7,7 +7,7 @@
  * @length: address of length var
  * Return: bytes read
  */
-ssize_t bufferInput(shell_params_t *params, char **buffer, size_t *length) {
+ssize_t bufferInput(info_t *params, char **buffer, size_t *length) {
 
 	ssize_t bytes_read =0;
 	size_t length_p = 0;
@@ -45,7 +45,7 @@ ssize_t bufferInput(shell_params_t *params, char **buffer, size_t *length) {
  * @params: parameter struct
  * Rerurn: bytes read
  */
-ssize_t getInput(shell_params_t *info) {
+ssize_t getInput(info_t *info) {
 {
 	static char *command_buffer; //The ';' command chain buffer
 	static size_t i, j, length;
@@ -92,7 +92,7 @@ ssize_t getInput(shell_params_t *info) {
  * @i: size
  * Return: r
  */
-ssize_t readBuffer(shell_params_t *params, char *buf, size_t *i) {
+ssize_t readBuffer(info_t *params, char *buf, size_t *i) {
 
 	ssize_t bytes_read = 0;
 
@@ -110,7 +110,7 @@ ssize_t readBuffer(shell_params_t *params, char *buf, size_t *i) {
  * @length: size of preallocated ptr buffer if not NULL
  * Return: s
  */
-int customGetLine(shell_params_t *params, char **ptr, size_t *length) {
+int customGetLine(info_t *params, char **ptr, size_t *length) {
 
 	static char buf[READ_BUF_SIZE];
 	static size_t i, len;
