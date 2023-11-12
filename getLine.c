@@ -8,7 +8,7 @@
  * @length: address of length var
  * Return: bytes read
  */
-ssize_t bufferInput(info_t *params, char **buffer, size_t *length); {
+ssize_t bufferInput(info_t *params, char **buffer, size_t *length) {
     ssize_t bytes_read = 0;
     size_t length_p = 0;
 
@@ -101,7 +101,7 @@ ssize_t readBuffer(info_t *params, char *buf, size_t *i) {
 
     if (*i)
         return (0);
-    bytes_read = read(params->read_fd, buf, READ_BUF_SIZE);
+    bytes_read = read(params->readfd, buf, READ_BUF_SIZE); // Corrected member name from read_fd to readfd
     if (bytes_read >= 0)
         *i = bytes_read;
     return bytes_read;
