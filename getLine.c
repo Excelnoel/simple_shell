@@ -1,7 +1,6 @@
 #include "shell.h"
 #include <signal.h>
 
-
 /**
  * input_buf - buffers chained commands
  * @info: parameter struct
@@ -10,6 +9,9 @@
  *
  * Return: bytes read
  */
+// Add this declaration
+void sigintHandler(int signum);
+
 ssize_t input_buf(info_t *info, char **buf, size_t *len)
 {
 	ssize_t r = 0;
@@ -169,5 +171,13 @@ void sigintHandler(__attribute__((unused))int sig_num)
 	_puts("\n");
 	_puts("$ ");
 	_putchar(BUF_FLUSH);
+}
+
+// Add this implementation
+void sigintHandler(int signum) {
+    (void) signum;  // To avoid unused parameter warning
+    puts("\n");
+    puts("$ ");
+    fflush(stdout);
 }
 
