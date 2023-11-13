@@ -269,5 +269,7 @@ int is_delim(char c, const char *delims);
 char *_getenv(info_t *info, const char *name);
 int isCmd(info_t *info, const char *cmd);
 
+void forkCommand(info_t *info);
+
 #endif
 
