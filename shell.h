@@ -249,10 +249,25 @@ void _eputchar(char);
 ssize_t getInput(info_t *);
 void setInfo(info_t *, char **);
 void freeInfo(info_t *, int);
-void writeHistory(info_t *);
+/* void writeHistory(info_t *); */
 char *findPath(info_t *, char *, char *);
 void printError(info_t *, char *);
 
+/* Add these declarations to shell.h */
+
+int _putchar(char c);
+int _myexit(info_t *info);
+int _myenv(info_t *info);
+int _myhelp(info_t *info);
+int _myhistory(info_t *info);
+int _mysetenv(info_t *info);
+int _myunsetenv(info_t *info);
+int _mycd(info_t *info);
+int _myalias(info_t *info);
+int _strcmp(const char *s1, const char *s2);
+int is_delim(char c, const char *delims);
+char *_getenv(info_t *info, const char *name);
+int isCmd(info_t *info, const char *cmd);
 
 #endif
 
