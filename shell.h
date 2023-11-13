@@ -188,7 +188,6 @@ int getLine(info_t *, char **, size_t *);
 void handleSigint(int);
 void interruptHandler(__attribute__((unused)) int signum);
 
-
 /* toem_getinfo.c */
 void initializeInfo(info_t *);
 void setShellInfo(info_t *, char **);
