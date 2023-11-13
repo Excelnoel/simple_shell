@@ -190,9 +190,9 @@ void handleSigint(int);
 void interruptHandler(__attribute__((unused)) int signum);
 
 /* toem_getinfo.c */
-void initializeInfo(info_t *);
-void setShellInfo(info_t *, char **);
-void freeShellInfo(info_t *, int);
+void clearInfo(info_t *);
+void setInfo(info_t *, char **);
+void freeInfo(info_t *, int);
 
 /* toem_environ.c */
 char *getEnvironmentVariable(info_t *, const char *);
