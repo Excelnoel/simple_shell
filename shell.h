@@ -177,6 +177,7 @@ void removeComments(char *);
 int exitShell(info_t *);
 int changeDirectory(info_t *);
 int displayHelp(info_t *);
+int _erratoi(info_t *info);
 
 /* toem_builtin1.c */
 int displayHistory(info_t *);
