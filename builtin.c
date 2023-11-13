@@ -1,22 +1,23 @@
 #include "shell.h"
 
 /**
- * exitShell - exit the custom shell
- * @info: Structure containing potential arguments, used to maintain
- *         a consistent function prototype.
- * Return: Exits with a given exit status, (0) if info->argv[0] != "exit"
+ * _myexit - exits the shell
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+ *  Return: exits with a given exit status
+ *         (0) if info.argv[0] != "exit"
  */
 int exitShell(info_t *info)
 {
-	int exitStatus;
+	int exitcheck;
 
-	if (info->argv[1])  /* If there is an exit argument */
+	if (info->argv[1])  /* If there is an exit arguement */
 	{
-		exitStatus = _erratoi(info->argv[1]);
-		if (exitStatus == -1)
+		exitcheck = _erratoi(info->argv[1]);
+		if (exitcheck == -1)
 		{
 			info->status = 2;
-			printErrorInfo(info, "Illegal number: ");
+			print_error(info, "Illegal number: ");
 			_eputs(info->argv[1]);
 			_eputchar('\n');
 			return (1);
@@ -29,69 +30,69 @@ int exitShell(info_t *info)
 }
 
 /**
- * changeDirectory - change the current directory of the process
- * @info: Structure containing potential arguments, used to maintain
- *         a consistent function prototype.
- * Return: Always 0
+ * _mycd - changes the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+ *  Return: Always 0
  */
 int changeDirectory(info_t *info)
 {
 	char *s, *dir, buffer[1024];
-	int chdirRet;
+	int chdir_ret;
 
 	s = getcwd(buffer, 1024);
 	if (!s)
-		_eputs("TODO: >>getcwd failure emsg here<<\n");
+		_puts("TODO: >>getcwd failure emsg here<<\n");
 	if (!info->argv[1])
 	{
-		dir = getenv(info, "HOME=");
+		dir = _getenv(info, "HOME=");
 		if (!dir)
-			chdirRet = /* TODO: what should this be? */
+			chdir_ret = /* TODO: what should this be? */
 				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
 		else
-			chdirRet = chdir(dir);
+			chdir_ret = chdir(dir);
 	}
-	else if (strcmp(info->argv[1], "-") == 0)
+	else if (_strcmp(info->argv[1], "-") == 0)
 	{
 		if (!_getenv(info, "OLDPWD="))
 		{
 			_puts(s);
-			_eputchar('\n');
+			_putchar('\n');
 			return (1);
 		}
 		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
-		chdirRet = /* TODO: what should this be? */
+		chdir_ret = /* TODO: what should this be? */
 			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
-		chdirRet = chdir(info->argv[1]);
-	if (chdirRet == -1)
+		chdir_ret = chdir(info->argv[1]);
+	if (chdir_ret == -1)
 	{
-		printError(info, "can't cd to ");
+		print_error(info, "can't cd to ");
 		_eputs(info->argv[1]), _eputchar('\n');
 	}
 	else
 	{
-		getenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
 		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
 
 /**
- * displayHelp - display help information for the custom shell
- * @info: Structure containing potential arguments, used to maintain
- *         a consistent function prototype.
- * Return: Always 0
+ * _myhelp - changes the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+
+ *  Return: Always 0
  */
 int displayHelp(info_t *info)
 {
-	char **argArray;
-
-	argArray = info->argv;
+	char **arg_array;
+	arg_array = info->argv;
 	_puts("help call works. Function not yet implemented \n");
 	if (0)
-		_puts(*argArray); /* temp att_unused workaround */
+		_puts(*arg_array); /* temp att_unused workaround */
 	return (0);
 }
 
