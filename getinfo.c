@@ -6,15 +6,15 @@
  */
 void clearInfo(info_t *info)
 {
-    info->argument = NULL;
-    info->argumentVector = NULL;
+    info->arg = NULL;
+    info->argv = NULL;
     info->path = NULL;
     info->argc = 0;  // Change 'argument' to 'argc'
 }
 
 /**
  * setInfo - Initialize the info_t struct
- * @info: Pointer to the info_t structstruct address
+ * @info: Pointer to the info_t struct
  * @arguments: Argument vector
  */
 void setInfo(info_t *info, char **arguments)
@@ -23,19 +23,19 @@ void setInfo(info_t *info, char **arguments)
 
     info->fname = arguments[0];  // Change 'filename' to 'fname'
 
-    if (info->argument)
+    if (info->arg)
     {
-        info->argumentVector = tokenizeString(info->argument, " \t");  // Change 'splitString' to 'tokenizeString'
-        if (!info->argumentVector)
+        info->argv = tokenizeString(info->arg, " \t");  // Change 'splitString' to 'tokenizeString'
+        if (!info->argv)
         {
-            info->argumentVector = malloc(sizeof(char *) * 2);
-            if (info->argumentVector)
+            info->argv = malloc(sizeof(char *) * 2);
+            if (info->argv)
             {
-                info->argumentVector[0] = duplicateString(info->argument);  // Change '(info->argument)' to 'info->argument'
-                info->argumentVector[1] = NULL;
+                info->argv[0] = duplicateString(info->arg);  // Change '(info->argument)' to 'info->argument'
+                info->argv[1] = NULL;
             }
         }
-        for (i = 0; info->argumentVector && info->argumentVector[i]; i++)  // Change 'info->argv' to 'info->argumentVector'
+        for (i = 0; info->argv && info->argv[i]; i++)  // Change 'info->argv' to 'info->argumentVector'
             ;
         info->argc = i;  // Change 'argumentCount' to 'argc'
 
@@ -45,35 +45,35 @@ void setInfo(info_t *info, char **arguments)
 }
 
 /**
- * freeInfo - free the fields of the info_t struct
- * @info: Pointer to the info_t struct 
+ * freeInfo - Free the fields of the info_t struct
+ * @info: Pointer to the info_t struct
  * @freeAll: True if freeing all fields
  */
 void freeInfo(info_t *info, int freeAll)
 {
-    free(info->argumentVector);
-    info->argumentVector = NULL;
+    freeMemory((void **)info->argv);
+    info->argv = NULL;
     info->path = NULL;
 
     if (freeAll)
     {
-        if (!info->commandBuffer)
-            free(info->argument);
+        if (!info->cmd_buf)
+            free(info->arg);
 
-        if (info->environment)
+        if (info->env)
             freeList(&(info->env));
 
-        if (info->commandHistory)
+        if (info->history)
             freeList(&(info->history));
 
-        if (info->aliasList)
-            freeList(&(info->aliasList));
+        if (info->alias)
+            freeList(&(info->alias));
 
-        free(info->environmentVariables);
-        info->environmentVariables = NULL;
+        freeMemory((void **)info->environ);
+        info->environ= NULL;
 
-        batchFree((void **)info->commandBuffer);
-        
+        freeMemory((void **)info->cmd_buf);
+
         if (info->readfd > 2)  // Change 'readFileDescriptor' to 'readfd'
             close(info->readfd);
 
