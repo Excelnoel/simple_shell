@@ -25,7 +25,7 @@ void setInfo(info_t *info, char **arguments)
 
     if (info->arg)
     {
-        info->argv = tokenizeString(info->arg, " \t");  // Change 'splitString' to 'tokenizeString'
+        info->argv = replaceString(info->arg, " \t");  // Change 'splitString' to 'tokenizeString'
         if (!info->argv)
         {
             info->argv = malloc(sizeof(char *) * 2);
@@ -51,7 +51,7 @@ void setInfo(info_t *info, char **arguments)
  */
 void freeInfo(info_t *info, int freeAll)
 {
-    freeMemory((void **)info->argv);
+    freeMemory((void ***)info->argv);
     info->argv = NULL;
     info->path = NULL;
 
@@ -69,10 +69,10 @@ void freeInfo(info_t *info, int freeAll)
         if (info->alias)
             freeList(&(info->alias));
 
-        freeMemory((void **)info->environ);
+        freeMemory((void ***)info->environ);
         info->environ= NULL;
 
-        freeMemory((void **)info->cmd_buf);
+        freeMemory((void ***)info->cmd_buf);
 
         if (info->readfd > 2)  // Change 'readFileDescriptor' to 'readfd'
             close(info->readfd);
