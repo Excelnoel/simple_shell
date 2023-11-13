@@ -193,7 +193,8 @@ void interruptHandler(__attribute__((unused)) int signum);
 void clearInfo(info_t *);
 void setInfo(info_t *, char **);
 void freeInfo(info_t *, int);
-void freeMemory(char ***);  // Change 'char **' to 'char ***'
+void freeMemory(char **);
+void freeMemoryTriple(char ***);
 
 /* toem_environ.c */
 char *getEnvironmentVariable(info_t *, const char *);
