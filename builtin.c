@@ -28,7 +28,7 @@ int exitShell(info_t *info)
                         _eputchar('\n');
                         return (1);
                 }
-                info->err_num = _erratoi(info->argv[1]);
+                info->err_num = exitcheck;
                 return (-2);
         }
         info->err_num = _erratoi(info);
