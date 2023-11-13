@@ -241,6 +241,18 @@ void populate_env_list(info_t *);
 void read_history(info_t *);
 void hsh(info_t *, char **);
 
+/* Add these declarations to shell.h */
+void clearInfo(info_t *);
+int interactive(info_t *);
+void _puts(const char *);
+void _eputchar(char);
+ssize_t getInput(info_t *);
+void setInfo(info_t *, char **);
+void freeInfo(info_t *, int);
+void writeHistory(info_t *);
+char *findPath(info_t *, char *, char *);
+void printError(info_t *, char *);
+
 
 #endif
 
