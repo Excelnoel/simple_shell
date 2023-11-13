@@ -125,7 +125,7 @@ void findCommand(info_t *info)
  *
  * Return: void
  */
-void forkCommand(void)
+void forkCommand(info_t *info)
 {
     pid_t child_pid;
 
