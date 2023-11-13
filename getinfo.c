@@ -51,7 +51,7 @@ void setInfo(info_t *info, char **arguments)
  */
 void freeInfo(info_t *info, int freeAll)
 {
-    freeMemoryTripple((void ***)info->argv);
+    freeMemoryTriple((void ***)info->argv);
     info->argv = NULL;
     info->path = NULL;
 
@@ -69,10 +69,10 @@ void freeInfo(info_t *info, int freeAll)
         if (info->alias)
             freeList(&(info->alias));
 
-        freeMemoryTripple((void ***)info->environ);
+        freeMemoryTriple((void ***)info->environ);
         info->environ= NULL;
 
-        freeMemoryTripple((void ***)info->cmd_buf);
+        freeMemoryTriple((void ***)info->cmd_buf);
 
         if (info->readfd > 2)  // Change 'readFileDescriptor' to 'readfd'
             close(info->readfd);
