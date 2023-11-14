@@ -12,8 +12,8 @@ void custom_puts(char *str) {
 		return;
 
 	while (str[index] != '\0') {
-	custom_putchar(str[index]);
-	index++;
+		custom_putchar(str[index]);
+		index++;
 	}
 }
 /**
@@ -43,7 +43,9 @@ int custom_putchar(char c) {
  * @fd: the file descriptor to write to
  * Return: 1 on success, -1 on error
  */
-int custom_put_to_fd(char c, int fd) {
+int custom_put_to_fd(char *str, int fd) {
+	
+
 
 	static int buffer_index;
 	static char output_buffer[OUTPUT_BUFFER_SIZE];
@@ -70,9 +72,8 @@ int custom_puts_to_fd(char *str, int fd) {
 
 	if (!str)
 		return 0;
-	while (*str) {
+		
+	char_count = write(fd, str, _strlen(str));
 	
-		char_count += custom_put_to_fd(*str++, fd);
-	}
 	return char_count;
 }

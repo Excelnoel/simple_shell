@@ -62,7 +62,7 @@ int setEnvironmentVariables(info_t *info, char *var, char *value)
 	if (!var || !value)
 		return (0);
 
-	buffer = malloc(strlen(var) + _strlen(value) + 2);
+	buffer = malloc(strlen(var) + strlen(value) + 2);
 	if (!buffer)
 		return (1);
 	strcpy(buffer, var);
@@ -71,7 +71,7 @@ int setEnvironmentVariables(info_t *info, char *var, char *value)
 	current = info->env;
 	while (current) {
 	
-		ptr = starts_with(current->str, var);
+		ptr = startsWith(current->str, var);
 		if (ptr && *ptr == '=') {
 		
 			free(current->str);
