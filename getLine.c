@@ -55,8 +55,9 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
  *
  * Return: bytes read
  */
-ssize_t get_input(info_t *info)
 int isChain(info_t *info, char *buf, size_t *j);
+
+ssize_t get_input(info_t *info)
 
 {
 	static char *buf; /* the ';' command chain buffer */
