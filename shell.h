@@ -88,8 +88,8 @@ typedef struct builtin
 /* Custom error handling and output functions */
 void custom_puts(char *str);
 int custom_putchar(char c);
-int custom_put_to_fd(char c, int fd);
-int custom_puts_to_fd(char *str, int fd);
+int custom_put_to_fd(char *, int fd);
+int custom_puts_to_fd(char *, int fd);
 
 /* Built-in command functions */
 int exitShell(info_t *);
