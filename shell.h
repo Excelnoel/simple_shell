@@ -126,10 +126,10 @@ char *findPath(info_t *, char *, char *);
 int loophsh(char **);
 
 /* toem_errors.c */
-void printErrorMessage(char *);
-int printErrorCharacter(char);
-int putCharacterToFile(char c, int fd);
-int putStringToFile(char *str, int fd);
+void custom_puts(char *);
+int custom_putchar(char c);
+int custom_put_to_fd(char c, int fd);
+int custom_puts_to_fd(char *str, int fd);
 
 /* toem_string.c */
 int stringLength(char *);
