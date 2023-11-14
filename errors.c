@@ -73,7 +73,7 @@ int custom_puts_to_fd(char *str, int fd) {
 	if (!str)
 		return 0;
 		
-	char_count = write(fd, str, _strlen(str));
+	char_count = write(fd, str, strlen(str));
 	
 	return char_count;
 }
