@@ -7,6 +7,9 @@
  *
  * Return: 1 if true, 0 otherwise
  */
+size_t _strlen(char *str);
+char *_strcat(char *dest, char *src);
+
 int isCommandExecutable(info_t *info, char *path)
 {
     struct stat st;

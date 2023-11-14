@@ -178,6 +178,7 @@ int exitShell(info_t *);
 int changeDirectory(info_t *);
 int displayHelp(info_t *);
 int _erratoi(info_t *info);
+int _putchar(char c);
 
 /* toem_builtin1.c */
 int displayHistory(info_t *);
