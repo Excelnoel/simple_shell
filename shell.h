@@ -1,10 +1,6 @@
 #ifndef _SHELL_H_
 #define _SHELL_H_
 
-#define OUTPUT_BUFFER_SIZE 1024
-#define WRITE_BUF_SIZE 1024
-#define FLUSH_BUFFER -1
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -20,6 +16,9 @@
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
+#define OUTPUT_BUFFER_SIZE 1024
+#define WRITE_BUF_SIZE 1024
+#define FLUSH_BUFFER -1
 
 /* Command chaining types */
 #define CMD_NORM 0
@@ -88,7 +87,7 @@ typedef struct builtin
 /* Custom error handling and output functions */
 void custom_puts(char *str);
 int custom_putchar(char c);
-int custom_put_to_fd(char *, int fd);
+int custom_put_to_fd(char c, int fd);
 int custom_puts_to_fd(char *, int fd);
 
 /* Built-in command functions */
