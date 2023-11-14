@@ -1,83 +1,83 @@
 #include "shell.h"
 
 /**
- * clearInfo - Initialize the info_t struct
- * @info: Pointer to the info_t struct
+ * clear_info - initializes info_t struct
+ * @info: struct address
  */
-void clearInfo(info_t *info)
+char **strtow(char *str, char *delimiters);
+char *_strdup(const char *str);
+void replace_alias(Info_t *info);
+void replace_vars(Info_t *info);
+void ffree(char **ptr);
+void free_list(List_t **list);
+int bfree(void **ptr);
+
+void clear_info(info_t *info)
 {
-    info->arg = NULL;
-    info->argv = NULL;
-    info->path = NULL;
-    info->argc = 0;  // Change 'argument' to 'argc'
+	info->arg = NULL;
+	info->argv = NULL;
+	info->path = NULL;
+	info->argc = 0;
 }
 
 /**
- * setInfo - Initialize the info_t struct
- * @info: Pointer to the info_t struct
- * @arguments: Argument vector
+ * set_info - initializes info_t struct
+ * @info: struct address
+ * @av: argument vector
  */
-void setInfo(info_t *info, char **arguments)
+void set_info(info_t *info, char **av)
 {
-    int i = 0;
+	int i = 0;
 
-    info->fname = arguments[0];  // Change 'filename' to 'fname'
+	info->fname = av[0];
+	if (info->arg)
+	{
+		info->argv = strtow(info->arg, " \t");
+		if (!info->argv)
+		{
 
-    if (info->arg)
-    {
-        info->argv = replaceString(info->arg, " \t");  // Change 'splitString' to 'tokenizeString'
-        if (!info->argv)
-        {
-            info->argv = malloc(sizeof(char *) * 2);
-            if (info->argv)
-            {
-                info->argv[0] = duplicateString(info->arg);  // Change '(info->argument)' to 'info->argument'
-                info->argv[1] = NULL;
-            }
-        }
-        for (i = 0; info->argv && info->argv[i]; i++)  // Change 'info->argv' to 'info->argumentVector'
-            ;
-        info->argc = i;  // Change 'argumentCount' to 'argc'
+			info->argv = malloc(sizeof(char *) * 2);
+			if (info->argv)
+			{
+				info->argv[0] = _strdup(info->arg);
+				info->argv[1] = NULL;
+			}
+		}
+		for (i = 0; info->argv && info->argv[i]; i++)
+			;
+		info->argc = i;
 
-        replaceAliases(info);
-        replaceVariables(info);
-    }
+		replace_alias(info);
+		replace_vars(info);
+	}
 }
 
 /**
- * freeInfo - Free the fields of the info_t struct
- * @info: Pointer to the info_t struct
- * @freeAll: True if freeing all fields
+ * free_info - frees info_t struct fields
+ * @info: struct address
+ * @all: true if freeing all fields
  */
-void freeInfo(info_t *info, int freeAll)
+void free_info(info_t *info, int all)
 {
-    freeMemoryTriple((void ***)info->argv);
-    info->argv = NULL;
-    info->path = NULL;
-
-    if (freeAll)
-    {
-        if (!info->cmd_buf)
-            free(info->arg);
-
-        if (info->env)
-            freeList(&(info->env));
-
-        if (info->history)
-            freeList(&(info->history));
-
-        if (info->alias)
-            freeList(&(info->alias));
-
-        freeMemoryTriple((void ***)info->environ);
-        info->environ= NULL;
-
-        freeMemoryTriple((void ***)info->cmd_buf);
-
-        if (info->readfd > 2)  // Change 'readFileDescriptor' to 'readfd'
-            close(info->readfd);
-
-        _eputchar(BUF_FLUSH);  // Change 'outputCharacter' to '_eputchar' and 'BUFFER_FLUSH' to 'BUF_FLUSH'
-    }
+	ffree(info->argv);
+	info->argv = NULL;
+	info->path = NULL;
+	if (all)
+	{
+		if (!info->cmd_buf)
+			free(info->arg);
+		if (info->env)
+			free_list(&(info->env));
+		if (info->history)
+			free_list(&(info->history));
+		if (info->alias)
+			free_list(&(info->alias));
+		ffree(info->environ);
+			info->environ = NULL;
+		bfree((void **)info->cmd_buf);
+		if (info->readfd > 2)
+			close(info->readfd);
+		_putchar(BUF_FLUSH);
+	}
 }
 
