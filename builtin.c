@@ -8,7 +8,6 @@ void _eputchar(char c);
 void _puts(const char *str);
 char *_getenv(info_t *info, const char *name);
 int _strcmp(const char *s1, const char *s2);
-void _putchar(char c);
 void _setenv(info_t *info, const char *name, const char *value);
 
 /* Function Definitions */
