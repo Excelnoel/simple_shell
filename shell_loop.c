@@ -59,7 +59,7 @@ int find_builtin(info_t *info)
 		{"exit", ExitCommand},
 		{"env", Envar},
 		{"help", MyHelp},
-		{"history", History},
+		{"history", _history},
 		{"setenv", Setenvar},
 		{"unsetenv", Unsetenvar},
 		{"cd", ChangeDirectory},
