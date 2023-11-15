@@ -1,13 +1,10 @@
 #include "shell.h"
-
 /**
- * _myhistory - displays the history list, one command by line, preceded
- *              with line numbers, starting at 0.
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- *  Return: Always 0
+ * _history - gives a list of historical parameters
+ * @info: parameters structure
+ * Return: 0
  */
-int History(info_t *info)
+int _history(info_t *info)
 {
 	print_list(info->history);
 	return (0);
@@ -81,7 +78,7 @@ int print_alias(list_t *node)
 }
 
 /**
- * _myalias - mimics the alias builtin (man alias)
+ * Aliases - mimics the alias builtin (man alias)
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0

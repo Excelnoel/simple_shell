@@ -179,8 +179,8 @@ int ChangeDirectory(info_t *);
 int MyHelp(info_t *);
 
 /* toem_builtin1.c */
-int History(info_t *);
-int Aliases(info_t *);
+int _history(info_t *info);
+int Aliases(info_t *info);
 
 /*toem_getline.c */
 ssize_t get_input(info_t *);
