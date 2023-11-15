@@ -1,98 +1,88 @@
 #include "shell.h"
 
 /**
- * customStrcpy - Copies a string
- * @destination: The destination buffer
- * @source: The source string
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
  *
- * Return: Pointer to the destination buffer
+ * Return: pointer to destination
  */
-char *customStrcpy(char *destination, char *source)
+char *_strcpy(char *dest, char *src)
 {
-    int index = 0;
+	int i = 0;
 
-    if (destination == source || source == NULL)
-        return destination;
-
-    while (source[index])
-    {
-        destination[index] = source[index];
-        index++;
-    }
-
-    destination[index] = '\0';
-    return destination;
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
 }
 
 /**
- * customStrdup - Duplicates a string
- * @str: The string to duplicate
+ * _strdup - duplicates a string
+ * @str: the string to duplicate
  *
- * Return: Pointer to the duplicated string
+ * Return: pointer to the duplicated string
  */
-char *customStrdup(const char *str)
+char *_strdup(const char *str)
 {
-    int length = 0;
-    char *result;
+	int length = 0;
+	char *ret;
 
-    if (str == NULL)
-        return NULL;
-
-    while (*str++)
-        length++;
-
-    result = malloc(sizeof(char) * (length + 1));
-
-    if (!result)
-        return NULL;
-
-    for (length++; length--;)
-        result[length] = *--str;
-
-    return result;
+	if (str == NULL)
+		return (NULL);
+	while (*str++)
+		length++;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+		return (NULL);
+	for (length++; length--;)
+		ret[length] = *--str;
+	return (ret);
 }
 
 /**
- * customPuts - Prints a string to stdout
- * @str: The string to be printed
+ *_puts - prints an input string
+ *@str: the string to be printed
  *
  * Return: Nothing
  */
-void customPuts(char *str)
+void _puts(char *str)
 {
-    int index = 0;
+	int i = 0;
 
-    if (!str)
-        return;
-
-    while (str[index] != '\0')
-    {
-        customPutchar(str[index]);
-        index++;
-    }
+	if (!str)
+		return;
+	while (str[i] != '\0')
+	{
+		_putchar(str[i]);
+		i++;
+	}
 }
 
 /**
- * customPutchar - Writes the character to stdout
- * @character: The character to print
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int customPutchar(char character)
+int _putchar(char c)
 {
-    static int bufferIndex;
-    static char buffer[WRITE_BUF_SIZE];
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
 
-    if (character == BUF_FLUSH || bufferIndex >= WRITE_BUF_SIZE)
-    {
-        write(1, buffer, bufferIndex);
-        bufferIndex = 0;
-    }
-
-    if (character != BUF_FLUSH)
-        buffer[bufferIndex++] = character;
-
-    return 1;
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(1, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
 }
 

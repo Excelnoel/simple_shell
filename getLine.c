@@ -1,5 +1,4 @@
 #include "shell.h"
-#include <signal.h>
 
 /**
  * input_buf - buffers chained commands
@@ -9,10 +8,6 @@
  *
  * Return: bytes read
  */
-// Add this declaration
-void sigintHandler(int signum);
-int isChain(info_t *info, char *buf, size_t *j);
-
 ssize_t input_buf(info_t *info, char **buf, size_t *len)
 {
 	ssize_t r = 0;
@@ -27,7 +22,7 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 #if USE_GETLINE
 		r = getline(buf, &len_p, stdin);
 #else
-		r = getLine(info, buf, &len_p);
+		r = _getline(info, buf, &len_p);
 #endif
 		if (r > 0)
 		{
@@ -37,8 +32,8 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 				r--;
 			}
 			info->linecount_flag = 1;
-			removeComments(*buf);
-			buildHistoryList(info, *buf, info->histcount++);
+			remove_comments(*buf);
+			build_history_list(info, *buf, info->histcount++);
 			/* if (_strchr(*buf, ';')) is this a command chain? */
 			{
 				*len = r;
@@ -55,17 +50,14 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
  *
  * Return: bytes read
  */
-int isChain(info_t *info, char *buf, size_t *j);
-
 ssize_t get_input(info_t *info)
-
 {
 	static char *buf; /* the ';' command chain buffer */
 	static size_t i, j, len;
 	ssize_t r = 0;
 	char **buf_p = &(info->arg), *p;
 
-	putchar(BUF_FLUSH);
+	_putchar(BUF_FLUSH);
 	r = input_buf(info, &buf, &len);
 	if (r == -1) /* EOF */
 		return (-1);
@@ -74,10 +66,10 @@ ssize_t get_input(info_t *info)
 		j = i; /* init new iterator to current buf position */
 		p = buf + i; /* get pointer for return */
 
-		checkChain(info, buf, &j, i, len);
+		check_chain(info, buf, &j, i, len);
 		while (j < len) /* iterate to semicolon or end */
 		{
-			if (isChain(info, buf, &j))
+			if (is_chain(info, buf, &j))
 				break;
 			j++;
 		}
@@ -90,7 +82,7 @@ ssize_t get_input(info_t *info)
 		}
 
 		*buf_p = p; /* pass back pointer to current command position */
-		return (strlen(p)); /* return length of current command */
+		return (_strlen(p)); /* return length of current command */
 	}
 
 	*buf_p = buf; /* else not a chain, pass back buffer from _getline() */
@@ -143,16 +135,16 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
-	c = strchr(buf + i, '\n');
+	c = _strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
-	new_p = realloc(p, s ? s + k : k + 1);
+	new_p = _realloc(p, s, s ? s + k : k + 1);
 	if (!new_p) /* MALLOC FAILURE! */
 		return (p ? free(p), -1 : -1);
 
 	if (s)
-		strncat(new_p, buf + i, k - i);
+		_strncat(new_p, buf + i, k - i);
 	else
-		strncpy(new_p, buf + i, k - i + 1);
+		_strncpy(new_p, buf + i, k - i + 1);
 
 	s += k - i;
 	i = k;
@@ -172,7 +164,8 @@ int _getline(info_t *info, char **ptr, size_t *length)
  */
 void sigintHandler(__attribute__((unused))int sig_num)
 {
-	puts("\n");
-	puts("$ ");
-	putchar(BUF_FLUSH);
+	_puts("\n");
+	_puts("$ ");
+	_putchar(BUF_FLUSH);
 }
+

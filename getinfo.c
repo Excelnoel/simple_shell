@@ -4,14 +4,6 @@
  * clear_info - initializes info_t struct
  * @info: struct address
  */
-char **strtow(char *str, char *delimiters);
-char *_strdup(const char *str);
-void replace_alias(info_t *info);
-void replace_varsi(info_t *info);
-void ffree(char **ptr);
-void free_list(list_t **list);
-int bfree(void **ptr);
-
 void clear_info(info_t *info)
 {
 	info->arg = NULL;
@@ -47,8 +39,8 @@ void set_info(info_t *info, char **av)
 			;
 		info->argc = i;
 
-		replaceAliases(info);
-		replaceAliases(info);
+		replace_alias(info);
+		replace_vars(info);
 	}
 }
 
@@ -67,7 +59,7 @@ void free_info(info_t *info, int all)
 		if (!info->cmd_buf)
 			free(info->arg);
 		if (info->env)
-			freeList(&(info->env));
+			free_list(&(info->env));
 		if (info->history)
 			free_list(&(info->history));
 		if (info->alias)

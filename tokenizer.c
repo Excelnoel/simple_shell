@@ -1,116 +1,95 @@
 #include "shell.h"
 
 /**
- * splitString - Splits a string into words, ignoring repeat delimiters
- * @inputStr: The input string
- * @delimiters: The delimiter string
- * Return: Pointer to an array of strings, or NULL on failure
+ * **strtow - splits a string into words. Repeat delimiters are ignored
+ * @str: the input string
+ * @d: the delimeter string
+ * Return: a pointer to an array of strings, or NULL on failure
  */
-char **splitString(char *inputStr, char *delimiters)
+
+char **strtow(char *str, char *d)
 {
-    int i, j, k, m, numWords = 0;
-    char **resultArray;
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-    if (inputStr == NULL || inputStr[0] == 0)
-        return NULL;
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+	if (!d)
+		d = " ";
+	for (i = 0; str[i] != '\0'; i++)
+		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
+			numwords++;
 
-    if (!delimiters)
-        delimiters = " ";
-
-    for (i = 0; inputStr[i] != '\0'; i++)
-        if (!isDelimiter(inputStr[i], delimiters) && (isDelimiter(inputStr[i + 1], delimiters) || !inputStr[i + 1]))
-            numWords++;
-
-    if (numWords == 0)
-        return NULL;
-
-    resultArray = malloc((1 + numWords) * sizeof(char *));
-    if (!resultArray)
-        return NULL;
-
-    for (i = 0, j = 0; j < numWords; j++)
-    {
-        while (isDelimiter(inputStr[i], delimiters))
-            i++;
-
-        k = 0;
-
-        while (!isDelimiter(inputStr[i + k], delimiters) && inputStr[i + k])
-            k++;
-
-        resultArray[j] = malloc((k + 1) * sizeof(char));
-        if (!resultArray[j])
-        {
-            for (k = 0; k < j; k++)
-                free(resultArray[k]);
-
-            free(resultArray);
-            return NULL;
-        }
-
-        for (m = 0; m < k; m++)
-            resultArray[j][m] = inputStr[i++];
-
-        resultArray[j][m] = 0;
-    }
-
-    resultArray[j] = NULL;
-    return resultArray;
+	if (numwords == 0)
+		return (NULL);
+	s = malloc((1 + numwords) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (i = 0, j = 0; j < numwords; j++)
+	{
+		while (is_delim(str[i], d))
+			i++;
+		k = 0;
+		while (!is_delim(str[i + k], d) && str[i + k])
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
+	}
+	s[j] = NULL;
+	return (s);
 }
 
 /**
- * splitString2 - Splits a string into words using a single delimiter
- * @inputStr: The input string
- * @delimiter: The delimiter character
- * Return: Pointer to an array of strings, or NULL on failure
+ * **strtow2 - splits a string into words
+ * @str: the input string
+ * @d: the delimeter
+ * Return: a pointer to an array of strings, or NULL on failure
  */
-char **splitString2(char *inputStr, char delimiter)
+char **strtow2(char *str, char d)
 {
-    int i, j, k, m, numWords = 0;
-    char **resultArray;
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-    if (inputStr == NULL || inputStr[0] == 0)
-        return NULL;
-
-    for (i = 0; inputStr[i] != '\0'; i++)
-        if ((inputStr[i] != delimiter && inputStr[i + 1] == delimiter) ||
-            (inputStr[i] != delimiter && !inputStr[i + 1]) || inputStr[i + 1] == delimiter)
-            numWords++;
-
-    if (numWords == 0)
-        return NULL;
-
-    resultArray = malloc((1 + numWords) * sizeof(char *));
-    if (!resultArray)
-        return NULL;
-
-    for (i = 0, j = 0; j < numWords; j++)
-    {
-        while (inputStr[i] == delimiter && inputStr[i] != delimiter)
-            i++;
-
-        k = 0;
-
-        while (inputStr[i + k] != delimiter && inputStr[i + k] && inputStr[i + k] != delimiter)
-            k++;
-
-        resultArray[j] = malloc((k + 1) * sizeof(char));
-        if (!resultArray[j])
-        {
-            for (k = 0; k < j; k++)
-                free(resultArray[k]);
-
-            free(resultArray);
-            return NULL;
-        }
-
-        for (m = 0; m < k; m++)
-            resultArray[j][m] = inputStr[i++];
-
-        resultArray[j][m] = 0;
-    }
-
-    resultArray[j] = NULL;
-    return resultArray;
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+	for (i = 0; str[i] != '\0'; i++)
+		if ((str[i] != d && str[i + 1] == d) ||
+		    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+			numwords++;
+	if (numwords == 0)
+		return (NULL);
+	s = malloc((1 + numwords) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (i = 0, j = 0; j < numwords; j++)
+	{
+		while (str[i] == d && str[i] != d)
+			i++;
+		k = 0;
+		while (str[i + k] != d && str[i + k] && str[i + k] != d)
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
+	}
+	s[j] = NULL;
+	return (s);
 }
 

@@ -12,6 +12,8 @@
 
 void display_prompt();
 int execute_command(char *command);
+void executeCommand(char *command);
+
 
 #endif /* SHELL_H */
 
