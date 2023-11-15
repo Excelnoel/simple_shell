@@ -161,10 +161,10 @@ void *_realloc(void *, unsigned int, unsigned int);
 int bfree(void **);
 
 /* toem_atoi.c */
-int interactive(info_t *);
-int is_delim(char, char *);
-int _isalpha(int);
-int _atoi(char *);
+int interactive_checker(info_t *);
+int Delimiter(char, char *);
+int Alpha_(int);
+int EmmyFavel(char *);
 
 /* toem_errors1.c */
 int _erratoi(char *);
@@ -174,13 +174,13 @@ char *convert_number(long int, int, int);
 void remove_comments(char *);
 
 /* toem_builtin.c */
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
+int ExitCommand(info_t *);
+int ChangeDirectory(info_t *);
+int MyHelp(info_t *);
 
 /* toem_builtin1.c */
-int _myhistory(info_t *);
-int _myalias(info_t *);
+int History(info_t *);
+int Aliases(info_t *);
 
 /*toem_getline.c */
 ssize_t get_input(info_t *);
@@ -193,11 +193,11 @@ void set_info(info_t *, char **);
 void free_info(info_t *, int);
 
 /* toem_environ.c */
-char *_getenv(info_t *, const char *);
-int _myenv(info_t *);
-int _mysetenv(info_t *);
-int _myunsetenv(info_t *);
-int populate_env_list(info_t *);
+char *Getenvar(info_t *, const char *);
+int Envar(info_t *);
+int Setenvar(info_t *);
+int Unsetenvar(info_t *);
+int PopulateList(info_t *);
 
 /* toem_getenv.c */
 char **get_environ(info_t *);

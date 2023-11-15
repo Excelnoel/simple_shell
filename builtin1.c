@@ -7,7 +7,7 @@
  *        constant function prototype.
  *  Return: Always 0
  */
-int _myhistory(info_t *info)
+int History(info_t *info)
 {
 	print_list(info->history);
 	return (0);
@@ -86,7 +86,7 @@ int print_alias(list_t *node)
  *          constant function prototype.
  *  Return: Always 0
  */
-int _myalias(info_t *info)
+int Aliases(info_t *info)
 {
 	int i = 0;
 	char *p = NULL;
