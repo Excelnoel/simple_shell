@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "signal.h"
 
 /**
  * input_buf - buffers chained commands
